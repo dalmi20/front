@@ -5,10 +5,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 
+
 export default function Login() {
    const [nin, setNin] = useState("");
    const [password, setPassword] = useState("");
    const navigate = useNavigate();
+
    const handleSubmit = async (e) => {
     axios.post("http://localhost:7778/auth/users/authenticate",{
       username:nin,
@@ -27,7 +29,8 @@ export default function Login() {
     });
   }
   return (
-    <div className=' bg-bgLight h-screen'>
+   
+       <div className=' bg-bgLight h-screen'>
       <div className='flex flex-row w-4/6 my-auto  mx-auto'>
         <div className='flex w-1/2 mt-20  md:visible '>
           <img src={login} className=' rounded-l-md shadow-md' />
@@ -63,5 +66,7 @@ export default function Login() {
         </div>
       </div>
     </div>
+ 
+    
   )
 }
