@@ -41,8 +41,9 @@ const DemandeDetails = () => {
     padding="1.3rem"
     zIndex="1">
       {
-        mesDemandes.map(demande => (
+        demandes.map(demande => (
           <Box
+          key={demande.id}
           display="flex"
           flexDirection="column"
           bgcolor="white"
@@ -52,16 +53,18 @@ const DemandeDetails = () => {
           >
             <Typography variant='h2' color={theme.palette.secondary.fontCol} fontWeight="bold" sx={{marginLeft:"1.3rem",marginTop:"1.1rem",marginBottom:"1.1rem"}} >{demande.nom}</Typography>
             <Box display="flex" justifyContent="start" sx={{ borderTop: 1.5, borderColor:theme.palette.secondary.fontCol }} pb="1rem"  pt="0.7rem" width="100%">
-                {demande.folder.map(e => (
-                  <Box
+                {
+                  (demande.nom === "Extrait de Naissance" || demande.nom === "Résidence") && (
+                    <Box
                   display="flex"
                   pl="1.2rem"
                   alignItems="center"
                   >
                     <CircleIcon/>
-                    <Typography color="black" variant='h3' sx={{marginLeft:"1.1rem"}}>{demande.paragraphe}</Typography>
+                    <Typography color="black" variant='h3' sx={{marginLeft:"1.1rem"}}>Le document sera genéré depuis les informations personelles selon le système</Typography>
                   </Box>
-                ))}
+                  )
+                }
             </Box>
             <Box display="flex" justifyContent="end" pt="0.7rem" pr="1.3rem" pb="1.2rem" width="100%">
             <Button variant="contained" color='secondary' sx={{borderRadius:1,width:"10%"}} disableElevation>
