@@ -4,6 +4,7 @@ import logo from '../images/logoWath.png'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {Box, Typography} from '@mui/material'
+import jwt from 'jsonwebtoken'
 
 
 
@@ -21,6 +22,18 @@ export default function Login() {
       console.log(response);
       localStorage.setItem("token",response.data)
       if (response.status === 200){
+        const decodedToken = jwt.decode(response.data); 
+        if (decodedToken) { 
+          // Access the claims from the decoded token 
+          const { sub, exp, iat, ...claims } = decodedToken; 
+          
+          console.log('Claims:', claims); 
+          console.log('nin',sub) 
+          localStorage.setItem("nin",sub) 
+          localStorage.setItem("roles",claims.roles) 
+        } else { 
+          console.log('Invalid token'); 
+          }
         navigate('/dashboard')
       }
       

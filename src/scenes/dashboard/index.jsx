@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const Dashboard1 = () => {
+
+ 
+    localStorage.setItem("title","Citizen Management")
+  
+
   return (
     <div>Dashboard</div>
   )

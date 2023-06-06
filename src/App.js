@@ -23,7 +23,7 @@ function App() {
       <Route path='login' element={<Login/>}/>
     <Route element={<Layout/>}>
       <Route path='/citizenmanagement' element={<Dashboard1/>}/>
-      <Route path='/traiterdemande' element={<TraiterDemande/>}/>
+      <Route path='/agentmanagement' element={<TraiterDemande/>}/>
       <Route path='/traiterdemande/details' element={<DemandeDetails/>}/>
     </Route>
    </Routes>
