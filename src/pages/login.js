@@ -6,8 +6,20 @@ import { useNavigate } from 'react-router-dom';
 import {Box, Typography} from '@mui/material'
 import jwt from 'jsonwebtoken'
 
+const token = localStorage.getItem("token");
+const decodedToken = jwt.decode(token);
 
-
+if (decodedToken) {
+  // Access the claims from the decoded token
+  const { sub, exp, iat, ...claims } = decodedToken;
+  
+  console.log('Claims:', claims);
+  console.log('nin',sub)
+  localStorage.setItem("nin",sub)
+  localStorage.setItem("roles",claims.roles)
+} else {
+  console.log('Invalid token');
+}
 export default function Login() {
    const [nin, setNin] = useState("");
    const [password, setPassword] = useState("");
@@ -31,6 +43,7 @@ export default function Login() {
           console.log('nin',sub) 
           localStorage.setItem("nin",sub) 
           localStorage.setItem("roles",claims.roles) 
+          
         } else { 
           console.log('Invalid token'); 
           }
