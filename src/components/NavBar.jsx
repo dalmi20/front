@@ -1,7 +1,9 @@
 import React from 'react'
 import { AppBar,Box,Typography, Button, IconButton, InputBase, Toolbar, useTheme, Menu, MenuItem } from '@mui/material';
 
-const NavBar = () => {
+const NavBar = ({
+  title
+}) => {
     const theme = useTheme()
   return (
     <AppBar component="nav"  sx={{
@@ -15,7 +17,7 @@ const NavBar = () => {
         p="1.4rem 1.4rem"
         sx={{ borderBottom: 1 }}
         >
-        <Typography variant='h2' color="white">Demande a traiter</Typography>
+        <Typography variant='h2' color="white">{title}</Typography>
     </Box>
         
     </AppBar>
