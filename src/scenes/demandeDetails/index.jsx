@@ -7,10 +7,11 @@ import CircleIcon from '@mui/icons-material/Circle';
 
 const DemandeDetails = () => {
 
-    const {state} = useLocation()
+    //const {state} = useLocation()
     const theme = useTheme()
-    console.log(state);
-    const [complet,setComplex] = useState([])
+    const token = localStorage.getItem("token")
+    const [demandes,setDemandes] = useState([])
+    
     const mesDemandes = [
       {
         nom:"Extrait de naissance",
@@ -23,6 +24,15 @@ const DemandeDetails = () => {
       }
     ]
 
+    useEffect(()=>{
+      Axios.get(`http://localhost:7778/demande/api/agent/demande/${localStorage.getItem("nin")}`,{
+          headers:{"Authorization" : `Bearer ${token}`}
+      }).then((response)=>{
+        setDemandes(response.data)
+      })
+    },[])
+
+    console.log(demandes);
 
   return (
     <Box

@@ -9,11 +9,15 @@ import Axios from 'axios'
 const TraiterDemande = () => {
   let navigate = useNavigate();
   const [data,setData] = useState([])
+  const token = localStorage.getItem("token")
+  
+  
   
 
   useEffect(()=>{
+    console.log(token);
     const getDemandes = Axios.get("http://localhost:7778/demande/api/all",{
-      headers:{"Authorization" : `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiUk9MRV9BRE1JTixST0xFX0FHRU5ULFJPTEVfQ0lUSVpFTiIsImlhdCI6MTY4NTg4NTI5MCwiZXhwIjoxNjg1OTAzMjkwfQ.qt88ReooXgVVebE_ogXsDPqoXhx9GeWi9PPPplosKP4`}
+      headers:{"Authorization" : `Bearer ${token}`}
     }).then((response) =>{
       setData(response.data)
       console.log("response",response);
@@ -40,8 +44,17 @@ const TraiterDemande = () => {
     }
   ]
 
+  const assignerAgent = (object) =>{
+    Axios.put(`http://localhost:7778/demande/api/${object.id}/assign/${localStorage.getItem("nin")}`,{
+      headers:{"Authorization" : `Bearer ${token}`}
+    }).then((response) =>{
+      console.log("agent assigned");
+    })
+  }
+
   const handleClick = (object) =>{
     console.log(object.title);
+
     
     /*navigate(`/traiterdemande/details/${object.id}`,{
       state:{
@@ -68,7 +81,8 @@ const TraiterDemande = () => {
                 <Paper>
                   <Box display="flex" flexDirection="column" alignItems="center" pt="2rem" pb="1rem">
                     <Box >
-                      { e.nom === "Extrait de naissance" ? <DescriptionOutlined sx={{fontSize:"3rem"}}/> : {} }
+                    { e.nom === "Extrait de Naissance" && <DescriptionOutlined sx={{fontSize:"3rem"}}/> }
+                    { e.nom === "Passport" && <DescriptionOutlined sx={{fontSize:"3rem"}}/> }
                     </Box>
                     <Typography color="black" fontWeight="bold" variant='h5'>{e.nom}</Typography>
                     <Typography variant='h6'>{e.dateDeCreation}</Typography>
@@ -83,7 +97,7 @@ const TraiterDemande = () => {
                     </Box>
                     }
                     <Box display="flex" justifyContent="center" sx={{ borderTop: 1, borderColor:"#C0C0C0" }} mt="1.8rem" pt="0.7rem" width="65%">
-                      <Button onClick={()=>handleClick(e)} variant="contained" color='secondary' sx={{borderRadius:0}} disableElevation>
+                      <Button onClick={()=>assignerAgent(e)} variant="contained" color='secondary' sx={{borderRadius:0}} disableElevation>
                         Ajouter
                       </Button>
                     </Box>

@@ -20,6 +20,20 @@ const navItemes = [
         icon: <Forum/>
     }
 ]
+const navCitizen = [
+    {
+        text: "Mes Documents",
+        icon: <HomeOutlined/>
+    },
+    {
+        text: "Mes Demandes",
+        icon: <Work/>
+    },
+    {
+        text: "Forum",
+        icon: <Forum/>
+    }
+]
 
 const secondNav = [
     {
@@ -37,12 +51,17 @@ const Sidebar = ({
     isSidebarOpen,
     setIsSidebarOpen,
     isNonMobile,
-    isAdmin
+    isAdmin,
+    isAgent,
+    isCitizen,
+    func
 }) => {
     const {pathname} = useLocation();
     const [active,setActive] = useState("")
+    const [active1,setActive1] = useState("")
     const navigate = useNavigate()
     const theme = useTheme()
+    
 
     useEffect(() =>{
         setActive(pathname.substring(1))
@@ -98,9 +117,16 @@ const Sidebar = ({
                             bgcolor="#D3E2E7"
                             p="0.6rem 1.5rem"
                             m="1.3rem 0rem"
+                            display="flex"
                             >
-                                <Typography fontWeight="bold" fontSize="0.9rem" sx={{color:"black"}} >
-                                    Administrator
+                                <Typography pr="0.5rem" fontWeight="bold" fontSize="0.9rem" sx={{color:"black",cursor:"pointer"}} >
+                                    Admin
+                                </Typography>
+                                <Typography pl="0.5rem" pr="0.5rem" fontWeight="bold" fontSize="0.9rem" sx={{color:"black",cursor:"pointer"}} >
+                                    Agent
+                                </Typography>
+                                <Typography pl="0.5rem"  fontWeight="bold" fontSize="0.9rem" sx={{color:"black",cursor:"pointer"}} >
+                                    Citizen
                                 </Typography>
                             </Box>
                         </Box>
@@ -126,9 +152,11 @@ const Sidebar = ({
                                         <ListItem key={text} disablePadding>
                                             <ListItemButton onClick={() => {navigate(`/${lcText}`)
                                             setActive(lcText)
+                                            func(text)
                                             }}
                                             sx={{backgroundColor: active === lcText ? theme.palette.secondary.selec : "transparent", color: active === lcText ? "white" : theme.palette.secondary.fontCol}}
                                             >
+                                                
                                                 <ListItemIcon
                                                 sx ={{ ml:"0.8rem", color: active === lcText ? "white" : theme.palette.secondary.selec}}
                                                 >
@@ -182,6 +210,242 @@ const Sidebar = ({
                 </Box>
             </Box>
             )}
+            {/* AGENT */}
+            {
+                isCitizen && (
+                    <Box width="100%">
+                    <Box color={theme.palette.secondary.main} m="1.5rem 2.rem 2rem 3rem">
+                            <Box display="flex" justifyContent="center" alignItems="center" marginTop="1.5rem" gap="0.5rem">
+                                <Box
+                                component="img"
+                                alt="logo"
+                                src={logo}
+                                height="80px"
+                                width="80px"
+                                />
+                                {!isNonMobile && (
+                                    <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                                        <ChevronLeft/>
+                                    </IconButton>
+                                )}
+                            </Box>
+                            <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" m="1.5rem 0rem" >
+                                <Box
+                                component="img"
+                                alt="profile"
+                                src={profileImage}
+                                height="80px"
+                                width="80px"
+                                borderRadius="50%"
+                                sx={{objectFit:"cover"}}
+                                />
+                                <Box
+                                bgcolor="#D3E2E7"
+                                p="0.6rem 1.5rem"
+                                m="1.3rem 0rem"
+                                >
+                                    <Typography fontWeight="bold" fontSize="0.9rem" sx={{color:"black"}} >
+                                        Citizen
+                                    </Typography>
+                                </Box>
+                            </Box>
+                            <List sx={{
+                                '& .MuiListItemButton-root:hover': {
+                                    backgroundColor: '#F8F8F8',
+                                    '&, & .MuiListItemIcon-root': {
+                                      color: theme.palette.secondary.selec,
+                                    },
+                                  },
+                            }}>
+                                {
+                                    navCitizen.map(({text,icon}) =>{
+                                        if (!icon) {
+                                            return (
+                                                <Typography key={text} sx={{ m:"2.25rem 0 1rem 3rem"}}>
+                                                    {text}
+                                                </Typography>
+                                            )
+                                        }
+                                        const lcText = text.toLowerCase().replace(/ /g, '');
+                                        return (
+                                            <ListItem key={text} disablePadding>
+                                                <ListItemButton onClick={() => {navigate(`/${lcText}`)
+                                                setActive(lcText)
+                                                }}
+                                                sx={{backgroundColor: active === lcText ? theme.palette.secondary.selec : "transparent", color: active === lcText ? "white" : theme.palette.secondary.fontCol}}
+                                                >
+                                                    <ListItemIcon
+                                                    sx ={{ ml:"0.8rem", color: active === lcText ? "white" : theme.palette.secondary.selec}}
+                                                    >
+                                                        {icon}
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={text} />
+                                                </ListItemButton>
+                                            </ListItem>
+                                        )
+                                    })
+                                }
+                            </List>
+                            <Divider variant='middle' sx={{marginTop:"3.6rem",borderBottomWidth: 1}}/>
+                            <List sx={{
+                                '& .MuiListItemButton-root:hover': {
+                                    backgroundColor: '#F8F8F8',
+                                    '&, & .MuiListItemIcon-root': {
+                                      color: theme.palette.secondary.selec,
+                                    },
+                                  },
+                            }}>
+                                {
+                                    secondNav.map(({text,icon}) =>{
+                                        if (!icon) {
+                                            return (
+                                                <Typography key={text} sx={{ m:"2.25rem 0 1rem 3rem"}}>
+                                                    {text}
+                                                </Typography>
+                                            )
+                                        }
+                                        const lcText = text.toLowerCase().replace(/ /g, '');
+                                        return (
+                                            <ListItem key={text} disablePadding>
+                                                <ListItemButton onClick={() => {navigate(`/${lcText}`)
+                                                setActive(lcText)
+                                                }}
+                                                sx={{backgroundColor: active === lcText ? theme.palette.secondary.selec : "transparent", color: active === lcText ? "white" : theme.palette.secondary.fontCol}}
+                                                >
+                                                    <ListItemIcon
+                                                    sx ={{ ml:"0.8rem", color: active === lcText ? "white" : theme.palette.secondary.selec}}
+                                                    >
+                                                        {icon}
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={text} />
+                                                </ListItemButton>
+                                            </ListItem>
+                                        )
+                                    })
+                                }
+                            </List>
+                    </Box>
+                </Box>
+                )
+            }
+            {/* AGENT */}
+            {
+                isAgent && (
+                    <Box width="100%">
+                    <Box color={theme.palette.secondary.main} m="1.5rem 2.rem 2rem 3rem">
+                            <Box display="flex" justifyContent="center" alignItems="center" marginTop="1.5rem" gap="0.5rem">
+                                <Box
+                                component="img"
+                                alt="logo"
+                                src={logo}
+                                height="80px"
+                                width="80px"
+                                />
+                                {!isNonMobile && (
+                                    <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                                        <ChevronLeft/>
+                                    </IconButton>
+                                )}
+                            </Box>
+                            <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" m="1.5rem 0rem" >
+                                <Box
+                                component="img"
+                                alt="profile"
+                                src={profileImage}
+                                height="80px"
+                                width="80px"
+                                borderRadius="50%"
+                                sx={{objectFit:"cover"}}
+                                />
+                                <Box
+                                bgcolor="#D3E2E7"
+                                p="0.6rem 1.5rem"
+                                m="1.3rem 0rem"
+                                >
+                                    <Typography fontWeight="bold" fontSize="0.9rem" sx={{color:"black"}} >
+                                        Citizen
+                                    </Typography>
+                                </Box>
+                            </Box>
+                            <List sx={{
+                                '& .MuiListItemButton-root:hover': {
+                                    backgroundColor: '#F8F8F8',
+                                    '&, & .MuiListItemIcon-root': {
+                                      color: theme.palette.secondary.selec,
+                                    },
+                                  },
+                            }}>
+                                {
+                                    navCitizen.map(({text,icon}) =>{
+                                        if (!icon) {
+                                            return (
+                                                <Typography key={text} sx={{ m:"2.25rem 0 1rem 3rem"}}>
+                                                    {text}
+                                                </Typography>
+                                            )
+                                        }
+                                        const lcText = text.toLowerCase().replace(/ /g, '');
+                                        return (
+                                            <ListItem key={text} disablePadding>
+                                                <ListItemButton onClick={() => {navigate(`/${lcText}`)
+                                                setActive(lcText)
+                                                }}
+                                                sx={{backgroundColor: active === lcText ? theme.palette.secondary.selec : "transparent", color: active === lcText ? "white" : theme.palette.secondary.fontCol}}
+                                                >
+                                                    <ListItemIcon
+                                                    sx ={{ ml:"0.8rem", color: active === lcText ? "white" : theme.palette.secondary.selec}}
+                                                    >
+                                                        {icon}
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={text} />
+                                                </ListItemButton>
+                                            </ListItem>
+                                        )
+                                    })
+                                }
+                            </List>
+                            <Divider variant='middle' sx={{marginTop:"3.6rem",borderBottomWidth: 1}}/>
+                            <List sx={{
+                                '& .MuiListItemButton-root:hover': {
+                                    backgroundColor: '#F8F8F8',
+                                    '&, & .MuiListItemIcon-root': {
+                                      color: theme.palette.secondary.selec,
+                                    },
+                                  },
+                            }}>
+                                {
+                                    secondNav.map(({text,icon}) =>{
+                                        if (!icon) {
+                                            return (
+                                                <Typography key={text} sx={{ m:"2.25rem 0 1rem 3rem"}}>
+                                                    {text}
+                                                </Typography>
+                                            )
+                                        }
+                                        const lcText = text.toLowerCase().replace(/ /g, '');
+                                        return (
+                                            <ListItem key={text} disablePadding>
+                                                <ListItemButton onClick={() => {navigate(`/${lcText}`)
+                                                setActive(lcText)
+                                                }}
+                                                sx={{backgroundColor: active === lcText ? theme.palette.secondary.selec : "transparent", color: active === lcText ? "white" : theme.palette.secondary.fontCol}}
+                                                >
+                                                    <ListItemIcon
+                                                    sx ={{ ml:"0.8rem", color: active === lcText ? "white" : theme.palette.secondary.selec}}
+                                                    >
+                                                        {icon}
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={text} />
+                                                </ListItemButton>
+                                            </ListItem>
+                                        )
+                                    })
+                                }
+                            </List>
+                    </Box>
+                </Box>
+                )
+            }
         </Drawer>
     )}
   </Box>
