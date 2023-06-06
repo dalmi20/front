@@ -7,27 +7,13 @@ import { Outlet } from 'react-router-dom';
 import  Axios  from 'axios';
 import {RxUpdate} from 'react-icons/rx'
 import {AiFillDelete} from 'react-icons/ai'
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
-  const isNonMobile = useMediaQuery("(min-width: 600px)");
-const [isSidebarOpen,setIsSidebarOpen] = useState(true)
-  
+
+const navigate = useNavigate();
 const token = localStorage.getItem("token");
 console.log(token)
-
-  const decodedToken = jwt.decode(token);
-
-  if (decodedToken) {
-    // Access the claims from the decoded token
-    const { sub, exp, iat, ...claims } = decodedToken;
-    
-    console.log('Claims:', claims);
-    console.log('nin',sub)
-    localStorage.setItem("nin",sub)
-    localStorage.setItem("roles",claims.roles)
-  } else {
-    console.log('Invalid token');
-  }
   const [data, setData] = useState([]);
   const [citizens, setCitizens] = useState([]);
 
@@ -66,34 +52,24 @@ useEffect(()=>{
   }
   getDemandes()
 },[data.commune,data.wilaya])
+
+    const deleteUser= async (nin) =>{Axios.delete(`http://localhost:7778/auth/users/delete/${nin}`,{ 
+      headers:{"Authorization" : `Bearer ${token}`} 
+    }).then((response) =>{ 
+      console.log("responseDelete",response.data); 
+      window.location.reload()
+    }) 
+  }
+
 console.log("citizens" ,citizens)
   return (
     <div className='flex flex-col '>
-    <Box
-    display={isNonMobile ? "flex" : "block"} width="100%" height="100%"
-    >
-        <Sidebar
-        isNonMobile={isNonMobile}
-        drawerWidth="250px"
-        isSidebarOpen={isSidebarOpen}
-        setIsSidebarOpen={setIsSidebarOpen}
-        isAdmin={true}
-        />
-        <Box
-        width="100%"
-        flexGrow={1}
-        >
-          <NavBar
-          title="Citizen Mangement"
-          />
-          <Outlet />
-        </Box>
-    </Box>
-    <div className='flex justify-center ml-32  '>
+    <div className='flex justify-center mt-6  '>
 <div class="-my-2 py-2 overflow-x-auto  sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8 w-11/12">
-                <div class="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-1 overflow-hidden bg-white shadow-lg px-12">
+                <div class="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-4 overflow-hidden bg-white shadow-lg px-3 ">
                     <div class="flex justify-between">
-                        <div class="inline-flex border rounded w-7/12 px-2 lg:px-6 h-12 bg-transparent">
+                    
+                        <div class="inline-flex border rounded-md w-4/12 px-2 lg:px-6 h-11 bg-gray-50 ml-5">
                             <div class="flex flex-wrap items-stretch w-full h-full mb-6 relative">
                                 <div class="flex">
                                     <span class="flex items-center leading-normal bg-transparent rounded rounded-r-none border border-r-0 border-none lg:px-3 py-2 whitespace-no-wrap text-grey-dark text-sm">
@@ -103,9 +79,14 @@ console.log("citizens" ,citizens)
                                         </svg>
                                     </span>
                                 </div>
-                                <input type="text" class="flex-shrink flex-grow flex-auto leading-normal tracking-wide w-px flex-1 border border-none border-l-0 rounded rounded-l-none px-3 relative focus:outline-none text-xxs lg:text-xs lg:text-base text-gray-500 font-thin" placeholder="Search"/>
+                                <input type="text" class="flex-shrink flex-grow flex-auto leading-normal tracking-wide w-1/ border border-none border-l-0 rounded rounded-l-none px-1 relative focus:outline-none text-xs lg:text-xs text-gray-500 bg-gray-50 font-light" placeholder="Search"/>
                             </div>
                         </div>
+                        <div className='flex'>
+                        <button type="submit" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-ver focus:outline-none  bg-gray-50 rounded-lg border border-gray-200 ">Exporter Excel</button>
+                        <button type="submit" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-ver focus:outline-none  bg-gray-50 rounded-lg border border-gray-200  " onClick={()=>{navigate("/ajouterCitoyen")}}>Ajouter Citoyen</button>
+                        </div>
+                       
                     </div>
                 </div>
                 <div class="align-middle inline-block min-w-full shadow overflow-hidden bg-white shadow-dashboard px-8 pt-3 rounded-bl-lg rounded-br-lg">
@@ -133,14 +114,14 @@ console.log("citizens" ,citizens)
                                         </div>
                                     </td>
                                     <td class="px-4 py-3 whitespace-no-wrap border-b border-gray-500">
-                                        <div class="text-sm leading-5  text-blue-900">{item.fullNameLat}</div>
+                                        <div class="text-sm leading-5  text-gray-600">{item.fullNameLat}</div>
                                     </td>
-                                    <td class="px-4 py-3 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">{item.birthdate}</td>
-                                    <td class="px-4 py-3 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">{item.gender}</td>
-                                    <td class="px-4 py-3 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">{item.status}</td>
-                                    <td class="px-4 py-3 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">{""}</td>
-                                    <td class="px-4 py-3 whitespace-no-wrap border-b border-gray-500 text-gray-600 text-xl leading-5"><RxUpdate/></td>
-                                    <td class="px-4 py-3 whitespace-no-wrap border-b border-gray-500 text-gray-600 text-xl leading-5"><AiFillDelete/></td>
+                                    <td class="px-4 py-3 whitespace-no-wrap border-b text-gray-600 border-gray-500 text-sm leading-5">{item.birthdate}</td>
+                                    <td class="px-4 py-3 whitespace-no-wrap border-b text-gray-600 border-gray-500 text-sm leading-5">{item.gender}</td>
+                                    <td class="px-4 py-3 whitespace-no-wrap border-b text-gray-600 border-gray-500 text-sm leading-5">{item.status}</td>
+                                    <td class="px-4 py-3 whitespace-no-wrap border-b border-gray-500 text-gray-600 text-sm leading-5">{""}</td>
+                                    <td class="px-4 py-3 whitespace-no-wrap border-b border-gray-500 text-gray-600 text-xl leading-5"><button type='submit'><RxUpdate/></button></td>
+                                    <td class="px-4 py-3 whitespace-no-wrap border-b border-gray-500 text-gray-600 text-xl leading-5"><button type='submit' onClick={()=>{deleteUser(item.nin)}}><AiFillDelete/></button></td>
                           </tr>
                             )
                             )}

@@ -1,9 +1,18 @@
-import React from 'react'
+import React from 'react';
+import Footer from "../components/footer";
+import Cards from '../components/cards';
+import Slider from '../components/slider/slider';
+import Navbar from '../components/aNavbar';
+function Home(){
+    return(
+      <>
+      <Navbar />
+        <Slider />
+        <Cards />
+        <Footer />
+      </>
 
-export default function Home() {
-  return (
-    <div className=' bg-slate-400'>
-      hiii it's home page 
-    </div>
-  )
+    )
 }
+
+export default Home;

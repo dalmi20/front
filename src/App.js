@@ -6,10 +6,11 @@ import Layout from './scenes/layout'
 import Login from './pages/login';
 import {themeSettings} from "./theme"
 import { Routes,Route,BrowserRouter } from 'react-router-dom';
-import Home from './pages/home';
+import Home from "./pages/home"
 import TraiterDemande from './scenes/traiterDemande'
 import DemandeDetails from './scenes/demandeDetails'
 import { useSelector } from 'react-redux';
+import AjouteCitizen from './pages/ajouteCitizen';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 function App() {
   const mode = useSelector((state) => state.global.mode)
@@ -18,10 +19,11 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline>
    <Routes>
-      <Route path='/dashboard' element={<Dashboard/>}/>
-      <Route path='/' element={<Home/>}/>
       <Route path='login' element={<Login/>}/>
+      <Route path='/' element={<Home/>}/>
     <Route element={<Layout/>}>
+      <Route path='/dashboard' element={<Dashboard/>}/>
+      <Route path='/ajouterCitoyen' element={<AjouteCitizen/>}/>
       <Route path='/citizenmanagement' element={<Dashboard1/>}/>
       <Route path='/agentmanagement' element={<TraiterDemande/>}/>
       <Route path='/traiterdemande/details' element={<DemandeDetails/>}/>

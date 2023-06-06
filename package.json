@@ -5,6 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@heroicons/react": "^2.0.18",
+    "@material-tailwind/react": "^2.0.1",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.3",
     "@mui/x-data-grid": "^6.6.0",
@@ -61,6 +63,8 @@
     "os-browserify": "^0.3.0",
     "process": "^0.11.10",
     "react-app-rewired": "^2.2.1",
+    "sass": "^1.62.1",
+    "sass-loader": "^13.3.1",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "tailwindcss": "^3.3.2",
